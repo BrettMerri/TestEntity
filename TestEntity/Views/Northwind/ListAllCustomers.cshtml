@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "ListAllCustomers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form class="form-inline" action="SearchCustomersByCustomerID">
+    <div class="form-group">
+        <label for="CustomerID">Search by Customer ID</label>
+        @if (ViewBag.CustomerIDSelection != null)
+        {
+            <input type="text" name="CustomerID" id="CustomerID" placeholder="Customer ID" class="form-control" value="@ViewBag.CustomerIDSelection" />
+        }
+        else
+        {
+            <input type="text" name="CustomerID" id="CustomerID" placeholder="Customer ID" class="form-control" />
+        }
+        <button type="submit" class="btn btn-default">Search</button>
+    </div>
+</form>
+
+<form class="form-inline" action="SearchCustomersByCity" style="margin-top:10px;">
+    <div class="form-group">
+        <label for="City">Search by City</label>
+        <select class="form-control" name="City" id="City" onchange="this.form.submit()">
+            @if (ViewBag.CitySelection == null)
+            {
+                <option>Select city</option>
+            }
+            else
+            {
+                <option value="Show all">Show all</option>
+            }
+            @foreach (string item in ViewBag.CityList)
+            {
+                if (ViewBag.CitySelection != null)
+                {
+                    if (@item == ViewBag.CitySelection)
+                    {
+                        <option value="@item" selected>@item</option>
+                    }
+                    else
+                    {
+                        <option value="@item">@item</option>
+                    }
+                }
+                else
+                {
+                    <option value="@item">@item</option>
+                }
+            }
+        </select>
+    </div>
+</form>
+
+<h2>Customer List</h2>
+<div class="table-responsive">
+    <table class="table table-striped table-condensed">
+        <tr>
+            <th>Customer ID</th>
+            <th>Company name</th>
+            <th>City</th>
+        </tr>
+        @foreach (var item in ViewBag.SearchResultsList)
+        {
+            <tr>
+                <td>@item.CustomerID</td>
+                <td>@item.CompanyName</td>
+                <td>@item.City</td>
+            </tr>
+        }
+    </table>
+</div>
